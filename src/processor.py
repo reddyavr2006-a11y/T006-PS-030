@@ -4,9 +4,10 @@ def process_command(command):
 
     command_type = parts[0]
 
-    print(f"Command Type: {command_type}")
+    print("Command Type:", command_type)
 
     if command_type == "CONTRIBUTE":
+
         contribution_id = parts[1]
         subscriber_id = parts[2]
         tier = parts[3]
@@ -14,7 +15,12 @@ def process_command(command):
         contribution_type = parts[5]
         amount = parts[6]
 
-        print("  Contribution ID:", contribution_id)
-        print("  Subscriber:", subscriber_id)
-        print("  Tier:", tier)
-        print("  Amount:", amount)
+        print("Contribution ID:", contribution_id)
+        print("Subscriber:", subscriber_id)
+        print("Tier:", tier)
+        print("Date:", date_time)
+        print("Contribution Type:", contribution_type)
+        print("Amount:", amount)
+
+    else:
+        print("Other Command:", command_type)

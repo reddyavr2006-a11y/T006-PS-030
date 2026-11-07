@@ -1,5 +1,6 @@
 import csv
 
+
 def load_subscribers(file_path):
     subscribers = []
 
@@ -10,6 +11,8 @@ def load_subscribers(file_path):
             subscribers.append(row)
 
     return subscribers
+
+
 def load_commands(file_path):
     commands = []
 
@@ -17,7 +20,12 @@ def load_commands(file_path):
         for line in file:
             line = line.strip()
 
-            if line:
-                commands.append(line)
+            if line == "":
+                continue
+
+            if line.startswith("#"):
+                continue
+
+            commands.append(line)
 
     return commands
