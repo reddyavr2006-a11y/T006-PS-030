@@ -29,3 +29,15 @@ def load_commands(file_path):
             commands.append(line)
 
     return commands
+
+
+def load_navs(file_path):
+    navs = []
+
+    with open(file_path, encoding="utf-8") as file:
+        reader = csv.DictReader(file, delimiter="\t")
+
+        for row in reader:
+            navs.append(row)
+
+    return navs
