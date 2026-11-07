@@ -1,14 +1,13 @@
 from contribution_engine import process_contribution
 
 
-def process_command(command):
+def process_command(command, navs):
 
     parts = command.split("|")
 
     command_type = parts[0]
 
-    print("Command Type:",
-          command_type)
+    print("Command Type:", command_type)
 
     if command_type == "CONTRIBUTE":
 
@@ -25,10 +24,9 @@ def process_command(command):
             tier,
             date_time,
             contribution_type,
-            amount
+            amount,
+            navs
         )
 
     else:
-
-        print("Other Command:",
-              command_type)
+        print("Other Command:", command_type)

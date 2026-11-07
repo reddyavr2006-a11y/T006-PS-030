@@ -33,7 +33,7 @@ print(navs[0])
 print("\nProcessing First 5 Commands:\n")
 
 for command in commands[:5]:
-    process_command(command)
+    process_command(command, navs)
     print("-" * 40)
 print("\nFirst NAV Record:")
 print(navs[0])

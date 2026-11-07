@@ -1,8 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
-def truncate_4(number):
-    return int(number * 10000) / 10000
+def truncate_4(value):
+    return int(value * 10000) / 10000
 
 
 def calculate_pop_charge(amount):
@@ -18,17 +18,11 @@ def calculate_pop_charge(amount):
     return round(charge, 2)
 
 
-def is_before_cutoff(time_string):
+def find_nav(navs, scheme="E"):
 
-    dt = datetime.strptime(
-        time_string,
-        "%Y-%m-%d %H:%M:%S"
-    )
+    for record in navs:
 
-    cutoff = dt.replace(
-        hour=9,
-        minute=30,
-        second=0
-    )
+        if record["scheme"] == scheme:
+            return float(record["nav"])
 
-    return dt < cutoff
+    return None
