@@ -1,17 +1,14 @@
+import os
 from loaders import load_subscribers
 from loaders import load_commands
 
+project_root = os.path.dirname(os.path.dirname(__file__))
 
-subscribers = load_subscribers("../subscribers.csv")
-commands = load_commands("../commands.txt")
+subscribers_path = os.path.join(project_root, "subscribers.csv")
+commands_path = os.path.join(project_root, "commands.txt")
+
+subscribers = load_subscribers(subscribers_path)
+commands = load_commands(commands_path)
 
 print("Subscribers Loaded:", len(subscribers))
 print("Commands Loaded:", len(commands))
-
-print("\nFirst 2 Subscribers:")
-print(subscribers[:2])
-
-print("\nFirst 5 Commands:")
-
-for command in commands[:5]:
-    print(command)
