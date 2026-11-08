@@ -104,3 +104,20 @@ print(
         48.5
     )
 )
+from withdrawal_engine import (
+    validate_three_year_rule
+)
+
+print(
+    validate_three_year_rule(
+        "2023-08-14",
+        "2026-08-13"
+    )
+)
+
+print(
+    validate_three_year_rule(
+        "2023-08-14",
+        "2026-08-14"
+    )
+)
