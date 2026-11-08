@@ -1,3 +1,8 @@
+from loaders import load_glide_paths
+
+from allocation_engine import (
+    get_target_allocation
+)
 import os
 
 from loaders import (
@@ -66,26 +71,19 @@ for command in commands[:5]:
     )
 
     print("-" * 40)
-from allocation_engine import (
-    validate_active_allocation
+glide_path_file = os.path.join(
+    project_root,
+    "glidepath.csv"
+)
+
+glide_paths = load_glide_paths(
+    glide_path_file
 )
 
 print(
-    validate_active_allocation(
-        50,
-        75,
-        15,
-        10,
-        0
-    )
-)
-
-print(
-    validate_active_allocation(
-        51,
-        75,
-        15,
-        10,
-        0
+    get_target_allocation(
+        glide_paths,
+        "LC75",
+        36
     )
 )

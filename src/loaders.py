@@ -53,3 +53,20 @@ def load_holidays(file_path):
             holidays.append(row)
 
     return holidays
+def load_glide_paths(file_path):
+
+    glide_paths = []
+
+    with open(file_path,
+              encoding="utf-8") as file:
+
+        reader = csv.DictReader(
+            file,
+            delimiter="\t"
+        )
+
+        for row in reader:
+
+            glide_paths.append(row)
+
+    return glide_paths

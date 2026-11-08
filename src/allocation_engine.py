@@ -13,12 +13,14 @@ def validate_active_allocation(
     )
 
     if total != 100:
+
         return (
             False,
             "Allocation must sum to 100"
         )
 
     if a_pct > 5:
+
         return (
             False,
             "Alternative assets exceed 5%"
@@ -50,3 +52,24 @@ def validate_active_allocation(
         True,
         "Valid Allocation"
     )
+
+
+def get_target_allocation(
+        glide_paths,
+        fund,
+        age):
+
+    for row in glide_paths:
+
+        if (
+            row["fund"] == fund
+            and int(row["age"]) == age
+        ):
+
+            return {
+                "E": float(row["e_pct"]),
+                "C": float(row["c_pct"]),
+                "G": float(row["g_pct"])
+            }
+
+    return None
