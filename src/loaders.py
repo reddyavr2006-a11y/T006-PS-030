@@ -70,3 +70,19 @@ def load_glide_paths(file_path):
             glide_paths.append(row)
 
     return glide_paths
+def load_annuity_rates(file_path):
+
+    rates = []
+
+    with open(file_path, encoding="utf-8") as file:
+
+        reader = csv.DictReader(
+            file,
+            delimiter="\t"
+        )
+
+        for row in reader:
+
+            rates.append(row)
+
+    return rates

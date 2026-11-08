@@ -13,7 +13,17 @@ from loaders import (
 )
 
 from processor import process_command
+from loaders import (
+    load_annuity_rates
+)
 
+from exit_engine import (
+    find_annuity_rate,
+    calculate_monthly_annuity
+)
+from exit_engine import (
+    exit_precedence
+)
 
 project_root = os.path.dirname(
     os.path.dirname(__file__)
@@ -182,4 +192,31 @@ print(
     calculate_premature_exit(
         400000
     )
+)
+annuity_rates_path = os.path.join(
+    project_root,
+    "annuity_rates.csv"
+)
+annuity_rates = load_annuity_rates(
+    annuity_rates_path
+)
+rate = find_annuity_rate(
+    annuity_rates,
+    60,
+    "LIFE"
+)
+
+print("Rate:", rate)
+
+monthly = calculate_monthly_annuity(
+    240000,
+    rate
+)
+
+print(
+    "Monthly Annuity:",
+    monthly
+)
+print(
+    exit_precedence()
 )
