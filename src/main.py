@@ -66,3 +66,26 @@ for command in commands[:5]:
     )
 
     print("-" * 40)
+from allocation_engine import (
+    validate_active_allocation
+)
+
+print(
+    validate_active_allocation(
+        50,
+        75,
+        15,
+        10,
+        0
+    )
+)
+
+print(
+    validate_active_allocation(
+        51,
+        75,
+        15,
+        10,
+        0
+    )
+)
