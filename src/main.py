@@ -153,3 +153,18 @@ print(
         30000
     )
 )
+from exit_engine import (
+    calculate_superannuation_exit
+)
+
+print(
+    calculate_superannuation_exit(
+        500000
+    )
+)
+
+print(
+    calculate_superannuation_exit(
+        600000
+    )
+)
