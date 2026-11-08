@@ -1,7 +1,12 @@
-from utils import calculate_pop_charge
-from utils import truncate_4
-from utils import find_nav
+from datetime import datetime, timedelta
 
+from utils import (
+    calculate_pop_charge,
+    truncate_4,
+    get_next_business_day,
+    is_business_day,
+    get_nav_for_date
+)
 
 def process_contribution(
         contribution_id,
@@ -10,7 +15,8 @@ def process_contribution(
         date_time,
         contribution_type,
         amount,
-        navs):
+        navs,
+        holidays):
 
     amount = float(amount)
 
@@ -36,7 +42,48 @@ def process_contribution(
 
     # BR-03
 
-    nav = find_nav(navs, "E")
+    received_dt = datetime.strptime(
+        date_time,
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    cutoff = received_dt.replace(
+        hour=9,
+        minute=30,
+        second=0
+    )
+
+    contribution_date = received_dt.date()
+
+    if (
+        received_dt < cutoff
+        and is_business_day(
+            contribution_date,
+            holidays
+        )
+    ):
+        nav_date = contribution_date
+
+    else:
+        nav_date = get_next_business_day(
+            contribution_date + timedelta(days=1),
+            holidays
+        )
+
+    nav_date_string = nav_date.strftime(
+        "%d-%m-%Y"
+    )
+
+    nav = get_nav_for_date(
+        navs,
+        nav_date_string,
+        "E"
+    )
+
+    if nav is None:
+
+        print("NAV NOT FOUND")
+        return
 
     units = invested_amount / nav
 
@@ -50,6 +97,8 @@ def process_contribution(
     print("POP Charge:", pop_charge)
 
     print("Invested Amount:", invested_amount)
+
+    print("NAV Date:", nav_date_string)
 
     print("NAV Used:", nav)
 

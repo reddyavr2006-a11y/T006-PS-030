@@ -1,7 +1,10 @@
 from contribution_engine import process_contribution
 
 
-def process_command(command, navs):
+def process_command(
+        command,
+        navs,
+        holidays):
 
     parts = command.split("|")
 
@@ -25,8 +28,13 @@ def process_command(command, navs):
             date_time,
             contribution_type,
             amount,
-            navs
+            navs,
+            holidays
         )
 
     else:
-        print("Other Command:", command_type)
+
+        print(
+            "Other Command:",
+            command_type
+        )

@@ -41,3 +41,15 @@ def load_navs(file_path):
             navs.append(row)
 
     return navs
+
+
+def load_holidays(file_path):
+    holidays = []
+
+    with open(file_path, encoding="utf-8") as file:
+        reader = csv.DictReader(file, delimiter="\t")
+
+        for row in reader:
+            holidays.append(row)
+
+    return holidays

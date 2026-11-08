@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def truncate_4(value):
@@ -18,11 +18,40 @@ def calculate_pop_charge(amount):
     return round(charge, 2)
 
 
-def find_nav(navs, scheme="E"):
+def is_business_day(date_obj, holidays):
 
-    for record in navs:
+    if date_obj.weekday() >= 5:
+        return False
 
-        if record["scheme"] == scheme:
-            return float(record["nav"])
+    date_string = date_obj.strftime("%d-%m-%Y")
+
+    for holiday in holidays:
+
+        if holiday["date"] == date_string:
+            return False
+
+    return True
+
+
+def get_next_business_day(date_obj, holidays):
+
+    current = date_obj
+
+    while not is_business_day(current, holidays):
+        current += timedelta(days=1)
+
+    return current
+
+
+def get_nav_for_date(navs, nav_date, scheme):
+
+    for nav in navs:
+
+        if (
+            nav["date"] == nav_date
+            and nav["scheme"] == scheme
+        ):
+
+            return float(nav["nav"])
 
     return None
