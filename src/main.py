@@ -87,3 +87,20 @@ print(
         36
     )
 )
+from allocation_engine import (
+    should_rebalance
+)
+
+print(
+    should_rebalance(
+        48,
+        49
+    )
+)
+
+print(
+    should_rebalance(
+        48,
+        48.5
+    )
+)

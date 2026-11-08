@@ -73,3 +73,24 @@ def get_target_allocation(
             }
 
     return None
+
+
+def should_rebalance(
+        target_pct,
+        actual_pct):
+
+    deviation = abs(
+        target_pct - actual_pct
+    )
+
+    if deviation < 1:
+
+        return (
+            False,
+            deviation
+        )
+
+    return (
+        True,
+        deviation
+    )
