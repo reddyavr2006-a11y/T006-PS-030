@@ -168,3 +168,18 @@ print(
         600000
     )
 )
+from exit_engine import (
+    calculate_premature_exit
+)
+
+print(
+    calculate_premature_exit(
+        250000
+    )
+)
+
+print(
+    calculate_premature_exit(
+        400000
+    )
+)

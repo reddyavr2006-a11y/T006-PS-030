@@ -18,3 +18,23 @@ def calculate_superannuation_exit(
         "annuity_purchase": annuity_purchase,
         "status": "40% Annuity Required"
     }
+def calculate_premature_exit(
+        corpus):
+
+    if corpus <= 250000:
+
+        return {
+            "lump_sum": corpus,
+            "annuity_purchase": 0,
+            "status": "100% Lump Sum Allowed"
+        }
+
+    lump_sum = corpus * 0.20
+
+    annuity_purchase = corpus * 0.80
+
+    return {
+        "lump_sum": lump_sum,
+        "annuity_purchase": annuity_purchase,
+        "status": "80% Annuity Required"
+    }
