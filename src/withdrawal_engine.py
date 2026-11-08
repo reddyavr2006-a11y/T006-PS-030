@@ -65,3 +65,36 @@ def validate_three_year_rule(
         True,
         "Eligible"
     )
+def validate_withdrawal_count(
+        withdrawal_count):
+
+    if withdrawal_count >= 3:
+
+        return (
+            False,
+            "Maximum withdrawals exceeded"
+        )
+
+    return (
+        True,
+        "Eligible"
+    )
+def validate_withdrawal_amount(
+        own_contributions,
+        requested_amount):
+
+    maximum_allowed = (
+        own_contributions * 0.25
+    )
+
+    if requested_amount > maximum_allowed:
+
+        return (
+            False,
+            f"Maximum withdrawal allowed is {maximum_allowed}"
+        )
+
+    return (
+        True,
+        "Eligible"
+    )

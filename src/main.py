@@ -121,3 +121,35 @@ print(
         "2026-08-14"
     )
 )
+from withdrawal_engine import (
+    validate_withdrawal_count
+)
+
+print(
+    validate_withdrawal_count(
+        2
+    )
+)
+
+print(
+    validate_withdrawal_count(
+        3
+    )
+)
+from withdrawal_engine import (
+    validate_withdrawal_amount
+)
+
+print(
+    validate_withdrawal_amount(
+        100000,
+        20000
+    )
+)
+
+print(
+    validate_withdrawal_amount(
+        100000,
+        30000
+    )
+)
