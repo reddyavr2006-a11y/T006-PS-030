@@ -14,8 +14,22 @@ from processor import (
 from output_manager import (
     write_transactions
 )
+from holdings_engine import (
+    generate_holdings
+)
 
-
+from output_manager import (
+    write_transactions,
+    write_holdings
+)
+from exits_manager import (
+    generate_exits
+)
+from output_manager import (
+    write_transactions,
+    write_holdings,
+    write_exits
+)
 project_root = os.path.dirname(
     os.path.dirname(__file__)
 )
@@ -104,13 +118,26 @@ for command in commands[:10]:
 write_transactions(
     transactions
 )
+holdings = generate_holdings(
+    transactions
+)
 
+write_holdings(
+    holdings
+)
+exits = generate_exits()
 
+write_exits(
+    exits
+)
 print(
-    "\ntransactions.csv generated successfully."
+    "transactions.csv generated successfully."
 )
 
 print(
-    "Transaction Count:",
-    len(transactions)
+    "holdings.csv generated successfully."
+)
+
+print(
+    "exits.csv generated successfully."
 )
