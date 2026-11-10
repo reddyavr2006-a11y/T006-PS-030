@@ -103,3 +103,27 @@ def process_contribution(
     print("NAV Used:", nav)
 
     print("Units Allocated:", units)
+
+    transaction = [
+
+    subscriber_id,
+
+    tier,
+
+    contribution_id,
+
+    date_time,
+
+    amount,
+
+    pop_charge,
+
+    invested_amount,
+
+    nav,
+
+    units,
+
+    "DONE"
+    ]
+    return transaction

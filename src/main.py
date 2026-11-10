@@ -1,8 +1,3 @@
-from loaders import load_glide_paths
-
-from allocation_engine import (
-    get_target_allocation
-)
 import os
 
 from loaders import (
@@ -12,22 +7,19 @@ from loaders import (
     load_holidays
 )
 
-from processor import process_command
-from loaders import (
-    load_annuity_rates
+from processor import (
+    process_command
 )
 
-from exit_engine import (
-    find_annuity_rate,
-    calculate_monthly_annuity
+from output_manager import (
+    write_transactions
 )
-from exit_engine import (
-    exit_precedence
-)
+
 
 project_root = os.path.dirname(
     os.path.dirname(__file__)
 )
+
 
 subscribers_path = os.path.join(
     project_root,
@@ -49,6 +41,7 @@ holidays_path = os.path.join(
     "holidays.csv"
 )
 
+
 subscribers = load_subscribers(
     subscribers_path
 )
@@ -65,158 +58,59 @@ holidays = load_holidays(
     holidays_path
 )
 
-print("Subscribers Loaded:", len(subscribers))
-print("Commands Loaded:", len(commands))
-print("NAV Records Loaded:", len(navs))
-print("Holidays Loaded:", len(holidays))
 
-print("\nProcessing First 5 Commands:\n")
+print(
+    "Subscribers Loaded:",
+    len(subscribers)
+)
 
-for command in commands[:5]:
+print(
+    "Commands Loaded:",
+    len(commands)
+)
 
-    process_command(
+print(
+    "NAV Records Loaded:",
+    len(navs)
+)
+
+print(
+    "Holidays Loaded:",
+    len(holidays)
+)
+
+
+transactions = []
+
+
+for command in commands[:10]:
+
+    result = process_command(
+
         command,
+
         navs,
+
         holidays
     )
 
-    print("-" * 40)
-glide_path_file = os.path.join(
-    project_root,
-    "glidepath.csv"
+    if result:
+
+        transactions.append(
+            result
+        )
+
+
+write_transactions(
+    transactions
 )
 
-glide_paths = load_glide_paths(
-    glide_path_file
+
+print(
+    "\ntransactions.csv generated successfully."
 )
 
 print(
-    get_target_allocation(
-        glide_paths,
-        "LC75",
-        36
-    )
-)
-from allocation_engine import (
-    should_rebalance
-)
-
-print(
-    should_rebalance(
-        48,
-        49
-    )
-)
-
-print(
-    should_rebalance(
-        48,
-        48.5
-    )
-)
-from withdrawal_engine import (
-    validate_three_year_rule
-)
-
-print(
-    validate_three_year_rule(
-        "2023-08-14",
-        "2026-08-13"
-    )
-)
-
-print(
-    validate_three_year_rule(
-        "2023-08-14",
-        "2026-08-14"
-    )
-)
-from withdrawal_engine import (
-    validate_withdrawal_count
-)
-
-print(
-    validate_withdrawal_count(
-        2
-    )
-)
-
-print(
-    validate_withdrawal_count(
-        3
-    )
-)
-from withdrawal_engine import (
-    validate_withdrawal_amount
-)
-
-print(
-    validate_withdrawal_amount(
-        100000,
-        20000
-    )
-)
-
-print(
-    validate_withdrawal_amount(
-        100000,
-        30000
-    )
-)
-from exit_engine import (
-    calculate_superannuation_exit
-)
-
-print(
-    calculate_superannuation_exit(
-        500000
-    )
-)
-
-print(
-    calculate_superannuation_exit(
-        600000
-    )
-)
-from exit_engine import (
-    calculate_premature_exit
-)
-
-print(
-    calculate_premature_exit(
-        250000
-    )
-)
-
-print(
-    calculate_premature_exit(
-        400000
-    )
-)
-annuity_rates_path = os.path.join(
-    project_root,
-    "annuity_rates.csv"
-)
-annuity_rates = load_annuity_rates(
-    annuity_rates_path
-)
-rate = find_annuity_rate(
-    annuity_rates,
-    60,
-    "LIFE"
-)
-
-print("Rate:", rate)
-
-monthly = calculate_monthly_annuity(
-    240000,
-    rate
-)
-
-print(
-    "Monthly Annuity:",
-    monthly
-)
-print(
-    exit_precedence()
+    "Transaction Count:",
+    len(transactions)
 )
