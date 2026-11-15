@@ -1,88 +1,107 @@
-PS-030 - NPS Accumulation, Asset Allocation and Annuity Engine
-Team Information
-Team: T006
+# PS-030 - NPS Accumulation, Asset Allocation and Annuity Engine
 
-Project: National Pension System (NPS) Accumulation, Asset Allocation and Annuity Engine
+## Overview
 
-Project Overview
-This project implements a command-driven NPS processing engine capable of handling:
+This project implements a simplified National Pension System (NPS) processing engine for handling contributions, asset allocation, withdrawals, exits, annuity calculations and taxation.
 
-Contributions
-Asset Allocation
-Lifecycle Rebalancing
-Partial Withdrawals
-Superannuation Exits
-Premature Exits
-Annuity Calculations
-Tax Calculations
-The system processes subscriber data and transactions using master CSV files and command files.
+---
 
-Repository Structure
-T006-PS-030
-│
-├── src/
-│   ├── main.py
-│   ├── loaders.py
-│   ├── processor.py
-│   ├── contribution_engine.py
-│   ├── allocation_engine.py
-│   ├── withdrawal_engine.py
-│   ├── exit_engine.py
-│   ├── tax_engine.py
-│   ├── output_manager.py
-│   └── utils.py
-│
-├── tests/
-│
-├── subscribers.csv
-├── navs.csv
-├── holidays.csv
-├── glidepath.csv
-├── annuity_rates.csv
-├── commands.txt
-│
-└── README.md
-How To Run
-Prerequisites
-Python 3.11+
-Required CSV files present in project root
-Run
+## Input Files
+
+| File | Purpose |
+|--------|----------|
+| subscribers.csv | Subscriber master data |
+| navs.csv | Daily NAV values |
+| holidays.csv | Business holidays |
+| glidepath.csv | AUTO allocation rules |
+| annuity_rates.csv | Annuity lookup rates |
+| commands.txt | Transaction commands |
+
+---
+
+## How To Run
+
+```bash
 python src/main.py
-Generated Output Files
-The application generates:
+```
 
-transactions.csv
-Contains contribution transactions, charges, NAVs and allocated units.
+---
 
-holdings.csv
-Contains generated portfolio holdings.
+## Output Files
 
-exits.csv
-Contains superannuation and premature exit calculations.
+| Output File | Description |
+|------------|-------------|
+| transactions.csv | Contribution transactions |
+| holdings.csv | Current holdings |
+| exits.csv | Exit calculations |
+| tax_lines.csv | Tax records |
+| rebalances.csv | Rebalancing records |
 
-tax_lines.csv
-Contains tax-related records.
+---
 
-rebalances.csv
-Contains lifecycle rebalancing records.
+## Business Rules Implemented
 
-Business Rules Implemented
-BR-01 Contribution Minimums
-BR-02 POP Charges
-BR-03 NAV Based Unit Allocation
-BR-04 Active Allocation Validation
-BR-05 Auto Allocation Lookup
-BR-06 Rebalancing Tolerance
-BR-07 Partial Withdrawal Rules
-BR-08 Superannuation Exit
-BR-09 Premature Exit
-BR-10 Annuity Calculations
-BR-11 Tax Processing (basic implementation)
-BR-12 Exit Processing Precedence
-Note
-The following section contains the original project brief, input file specifications, edge cases, output formats and business-rule definitions provided as part of the project data pack.
+| Rule | Description |
+|--------|------------|
+| BR-01 | Contribution Minimums |
+| BR-02 | POP Charges |
+| BR-03 | NAV & Unit Allocation |
+| BR-04 | Active Allocation Validation |
+| BR-05 | Auto Allocation Lookup |
+| BR-06 | Rebalancing Tolerance |
+| BR-07 | Partial Withdrawal Validation |
+| BR-08 | Superannuation Exit |
+| BR-09 | Premature Exit |
+| BR-10 | Annuity Calculation |
+| BR-11 | Tax Processing |
+| BR-12 | Exit Precedence |
 
-Original Project Brief
+---
+
+## Command Format
+
+| Command | Arguments |
+|----------|------------|
+| `CONTRIBUTE` | txn_id, subscriber_id, tier, received_at, type, amount |
+| `CHANGE_ALLOCATION` | subscriber_id, date, E, C, G, A |
+| `PARTIAL_WITHDRAW` | subscriber_id, date, amount, purpose |
+| `WITHDRAW_TIER2` | subscriber_id, date, amount |
+| `UNFREEZE` | subscriber_id, date, amount |
+| `EXIT` | subscriber_id, date, type, annuity_option, annuity_pct |
+| `RUN_TO` | date |
+
+---
+
+## Test Suite
+
+Run:
+
+```bash
+python -m pytest
+```
+
+Current Status:
+
+```text
+6 tests passing
+```
+
+---
+
+## Project Structure
+
+```text
+src/
+tests/
+README.md
+Decision_Log.md
+```
+
+---
+
+## Original Project Brief
+
+(Paste the faculty README below this section)
 
 # PS-030 – NPS Accumulation, Asset Allocation and Annuity Engine — Sample Data Pack
 
@@ -166,15 +185,3 @@ Extra traps:
 - SUB-010: EMPLOYER contributions of 6000.00 per quarter-month against basic 50000.00 (12% > 10%) → 1000.00 of each employer contribution is taxable in that FY and must appear as a tax line. SUB-009 WITHDRAW_TIER2 40000.00 on 2026-03-10 (line 239) consumes Tier II lots FIFO: lots older than 36 months at LTCG 12.5%, younger lots at slab 30% — the lot bought 2023-04-18 is 35 months old on that date.
 - SUB-011 EXIT DEATH on 2026-05-20 (line 260) → 100% to nominee, no annuity; SUB-012 EXIT PREMATURE on 2026-10-06 (line 288) after 5 years with a corpus below 2.5 lakh → 100% lump sum even though annuity_option LIFE was supplied. Quarter-end custodian recoveries fall on 31 Mar / 30 Jun / 30 Sep / 31 Dec (use the last business day's NAV when the date is a non-business day).
 
-## What is NOT in this pack
-
-Expected outputs are not provided for this set. Validate your engine with your own test suite against the rules in your brief (BR-01 … BR-nn). A separate hidden input set with the same schema will be used at final evaluation; outputs are compared field-for-field, so follow the column formats above exactly in your own output.
-
-
-## Output format expected at evaluation
-
-1. `transactions.csv` — one row per unit movement: `subscriber_id, tier, txn_id_or_event (CON-xxxx / CRA / CUSTODIAN / REBALANCE / PARTIAL_WITHDRAW / TIER2_WITHDRAW / EXIT), event_date, nav_date, type, gross_amount, pop_charge, invested_amount, scheme, nav, units (signed, 4 decimals), status (DONE/REJECTED), reason_code`.
-2. `rebalances.csv` — one row per scheme per birthday rebalance: `subscriber_id, birthday, completed_age, fund, scheme, target_pct, actual_pct_before, deviation, action (REBALANCED/SKIPPED), units_redeemed, units_allotted, nav`.
-3. `holdings.csv` — one row per subscriber per scheme at the PRINT_HOLDING date: `subscriber_id, tier, scheme, units, nav, value, pct`.
-4. `exits.csv` — one row per processed or rejected EXIT: `subscriber_id, exit_date, type, status, corpus, lump_sum, annuity_purchase, gst_on_annuity, annuity_option, completed_age, annuity_rate, monthly_annuity, taxable_lump_sum, reason_code`.
-5. `tax_lines.csv` — `subscriber_id, financial_year, line_type (EMPLOYER_EXCESS / TIER2_LTCG / TIER2_STCG / TAXABLE_LUMP_SUM), amount, tax_rate, tax`.
