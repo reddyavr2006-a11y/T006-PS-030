@@ -30,6 +30,25 @@ from output_manager import (
     write_holdings,
     write_exits
 )
+from tax_engine import (
+    generate_tax_lines
+)
+from output_manager import (
+    write_transactions,
+    write_holdings,
+    write_exits,
+    write_tax_lines
+)
+from rebalance_manager import (
+    generate_rebalances
+)
+from output_manager import (
+    write_transactions,
+    write_holdings,
+    write_exits,
+    write_tax_lines,
+    write_rebalances
+)
 project_root = os.path.dirname(
     os.path.dirname(__file__)
 )
@@ -130,6 +149,16 @@ exits = generate_exits()
 write_exits(
     exits
 )
+tax_lines = generate_tax_lines()
+
+write_tax_lines(
+    tax_lines
+)
+rebalances = generate_rebalances()
+
+write_rebalances(
+    rebalances
+)
 print(
     "transactions.csv generated successfully."
 )
@@ -140,4 +169,11 @@ print(
 
 print(
     "exits.csv generated successfully."
+)
+
+print(
+    "tax_lines.csv generated successfully."
+)
+print(
+    "rebalances.csv generated successfully."
 )
