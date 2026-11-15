@@ -101,7 +101,6 @@ Decision_Log.md
 
 ## Original Project Brief
 
-(Paste the faculty README below this section)
 
 # PS-030 – NPS Accumulation, Asset Allocation and Annuity Engine — Sample Data Pack
 
